@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Responsive page</title>
+  <style>
+    body { font-family: sans-serif; color: #1a1a1a; background: #ffffff; }
+    #menu-toggle { display: none; width: 44px; height: 44px; }
+    #sidebar-search { display: block; }
+    @media (max-width: 600px) {
+      #menu-toggle { display: block; }
+      #sidebar-search { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Catalogue</h1>
+    <!-- seeded, phones only: the menu button appears under 600px and has no accessible name -->
+    <button id="menu-toggle"></button>
+    <!-- seeded, desktop only: the sidebar search box is hidden on phones and has no label -->
+    <input id="sidebar-search" type="search">
+    <p style="height: 1500px">Long content so the full-page screenshot is taller than the viewport.</p>
+  </main>
+</body>
+</html>
