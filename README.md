@@ -49,6 +49,12 @@ _Steps 1 and 2 are built and tested (M1); the rest is on the [roadmap](#roadmap)
 5. An HTML report overlays the findings on the screenshot.
 6. A labeled set of pages with seeded UX problems measures precision and recall, so the tool's accuracy is known, not assumed.
 
+## Who it helps
+
+- **Who:** Front-end developers and QA engineers.
+- **The problem:** Accessibility problems are often found late, by users who cannot complete a task.
+- **How to use it:** Point the tool at a URL: Playwright captures it at phone and desktop sizes, axe-core checks WCAG A and AA rules, and each finding names the element and viewport.
+
 ## Tech stack
 
 | Area | In M1 | Planned |
