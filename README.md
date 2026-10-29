@@ -27,7 +27,7 @@ flowchart LR
   B --> M["mobile 390x844<br/>touch"]
   B --> D["desktop 1440x900"]
   M & D --> C["full-page screenshot<br/>+ DOM"]
-  M & D --> A["axe-core 4.13.0<br/>(sha512 verified)<br/>WCAG A/AA rules"]
+  M & D --> A["axe-core 4.14.0<br/>(sha512 verified)<br/>WCAG A/AA rules"]
   A --> F["merge: one finding per<br/>rule + element,<br/>viewports + boxes"]
   F --> R["report.json<br/>summary.md"]
   F --> G["exit 1 if impact<br/>>= --fail-on"]
@@ -92,7 +92,7 @@ The output folder gets `screenshot-mobile.png`, `screenshot-desktop.png`, the DO
   "rule": "button-name",
   "impact": "critical",
   "summary": "Buttons must have discernible text",
-  "help_url": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+  "help_url": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
   "wcag": [
     "wcag2a",
     "wcag412"

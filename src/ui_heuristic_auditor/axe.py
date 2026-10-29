@@ -9,10 +9,10 @@ import tarfile
 import urllib.request
 from pathlib import Path
 
-AXE_VERSION = "4.13.0"
+AXE_VERSION = "4.14.0"
 TARBALL_URL = f"https://registry.npmjs.org/axe-core/-/axe-core-{AXE_VERSION}.tgz"
 # npm's published integrity for that exact tarball (Subresource Integrity format).
-TARBALL_INTEGRITY = "sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A=="
+TARBALL_INTEGRITY = "sha512-9WTZxEjsZ7b13TH8JPmbV2z8CHbl80/2hm3XPEG4JgNdQLK81IBRXmSxHfMAOkSqQeRxT/0dwNDz2GOm3zzpcQ=="
 MEMBER = "package/axe.min.js"
 
 

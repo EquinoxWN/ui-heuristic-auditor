@@ -11,7 +11,7 @@ its origin in a large blob; installing it with npm would add a Node.js toolchain
 
 ## Decision
 
-The auditor pins axe-core by version (4.13.0) and by the sha512 integrity that npm publishes for
+The auditor pins axe-core by version (4.14.0) and by the sha512 integrity that npm publishes for
 that exact tarball. On first use it downloads the tarball from the npm registry, verifies the hash,
 reads only `package/axe.min.js` (never extracting other paths), and caches it in `.tmp/cache`.
 Upgrading means changing the version and the integrity string together, in one reviewable line.

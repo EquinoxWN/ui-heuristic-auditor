@@ -43,7 +43,7 @@ add a vision model for Nielsen's heuristics and measure the tool's own accuracy.
 URL ─► check scheme (http/https only)
      ─► for each viewport (mobile 390x844 touch, desktop 1440x900):
           new browser context ─► goto (timeout) ─► full-page screenshot + DOM
-          inject verified axe-core 4.13.0 ─► axe.run(WCAG A/AA tags) ─► violations + element boxes
+          inject verified axe-core 4.14.0 ─► axe.run(WCAG A/AA tags) ─► violations + element boxes
      ─► merge: one finding per (rule, element), viewports listed, worst impact first
      ─► report.json + summary.md ─► exit 1 if any finding is at or above --fail-on
 ```
@@ -51,7 +51,7 @@ URL ─► check scheme (http/https only)
 | Part | M1 implementation |
 |---|---|
 | Browser | Playwright 1.63 (sync API), one headless Chromium per run, a fresh context per viewport with `is_mobile`, touch and device scale factor 1 so screenshot pixels equal CSS pixels |
-| Rules | axe-core 4.13.0 with `runOnly` tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa` (best-practice rules excluded) |
+| Rules | axe-core 4.14.0 with `runOnly` tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa` (best-practice rules excluded) |
 | Supply chain | axe-core is downloaded from the npm registry at first use and checked against npm's published sha512 integrity before it is cached; only `package/axe.min.js` is read from the tarball |
 | Evidence | For each element: CSS selector, HTML (first 500 characters), failure summary (the fix), and its box in page coordinates per viewport |
 | Output | `screenshot-<viewport>.png`, `dom-<viewport>.html`, `axe-<viewport>.json`, `report.json` (schema 1), `summary.md` |
