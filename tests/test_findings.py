@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from ui_heuristic_auditor.capture import PageCapture, ViewportCapture
-from ui_heuristic_auditor.findings import merge
+from ui_heuristic_auditor.findings import at_least, merge
 from ui_heuristic_auditor.viewports import VIEWPORTS
 
 
@@ -70,3 +70,21 @@ def test_findings_are_sorted_worst_first_then_by_rule() -> None:
         )
     )
     assert [f.rule for f in findings] == ["button-name", "image-alt", "color-contrast", "region"]
+
+
+def test_fail_on_includes_the_named_level_and_everything_worse() -> None:
+    findings = merge(
+        capture(
+            {
+                "desktop": [
+                    violation("a", "critical", "#a"),
+                    violation("b", "serious", "#b"),
+                    violation("c", "moderate", "#c"),
+                    violation("d", "minor", "#d"),
+                ]
+            }
+        )
+    )
+    assert [f.rule for f in at_least(findings, "serious")] == ["a", "b"]
+    assert [f.rule for f in at_least(findings, "minor")] == ["a", "b", "c", "d"]
+    assert [f.rule for f in at_least(findings, "critical")] == ["a"]

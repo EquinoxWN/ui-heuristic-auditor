@@ -7,6 +7,7 @@ import os
 import sys
 from pathlib import Path
 
+from ui_heuristic_auditor.axe import IntegrityError
 from ui_heuristic_auditor.capture import Auditor, CaptureError
 from ui_heuristic_auditor.findings import IMPACT_ORDER, at_least, merge
 from ui_heuristic_auditor.report import write_report
@@ -27,6 +28,8 @@ def main(argv: list[str] | None = None) -> int:
         "--cache", type=Path, default=Path(os.environ.get("UI_AUDIT_CACHE", ".tmp/cache"))
     )
     args = parser.parse_args(argv)
+    if args.timeout < 1:
+        parser.error("--timeout must be at least 1 second (0 would mean no timeout)")
     try:
         viewports = [VIEWPORTS[name] for name in args.viewports.split(",")]
     except KeyError as e:
@@ -35,7 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         with Auditor(args.cache, timeout_ms=args.timeout * 1000) as auditor:
             capture = auditor.capture(args.url, args.out, viewports)
-    except CaptureError as e:
+    except (CaptureError, IntegrityError, OSError) as e:  # bad page, axe download or check
         print(f"error: {e}", file=sys.stderr)
         return 2
     findings = merge(capture)

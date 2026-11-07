@@ -7,6 +7,12 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
+from ui_heuristic_auditor import capture
+from ui_heuristic_auditor.axe import IntegrityError
+from ui_heuristic_auditor.cli import main
+
 
 def ui_audit(*args: str) -> subprocess.CompletedProcess[str]:
     """Run `python -m ui_heuristic_auditor.cli` with the given arguments."""
@@ -55,3 +61,22 @@ def test_bad_input_exits_with_two(tmp_path: Path) -> None:
         ui_audit("http://127.0.0.1:9/", "--out", str(tmp_path), "--viewports", "watch").returncode
         == 2
     )
+
+
+def test_a_timeout_of_zero_or_less_is_refused(tmp_path: Path) -> None:
+    # Playwright treats 0 as "no timeout", which would let one page hang the audit forever.
+    for value in ["0", "-5"]:
+        r = ui_audit("http://127.0.0.1:9/", "--out", str(tmp_path), "--timeout", value)
+        assert r.returncode == 2, value
+        assert "--timeout" in r.stderr
+
+
+def test_a_failed_axe_download_or_check_exits_with_two(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    def broken(cache_dir: Path) -> Path:
+        raise IntegrityError("axe-core tarball does not match the pinned sha512")
+
+    monkeypatch.setattr(capture, "ensure_axe", broken)
+    assert main(["http://127.0.0.1:9/", "--out", str(tmp_path)]) == 2
+    assert "does not match" in capsys.readouterr().err

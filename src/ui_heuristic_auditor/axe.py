@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import io
+import os
 import tarfile
 import urllib.request
 from pathlib import Path
@@ -49,5 +50,11 @@ def ensure_axe(cache_dir: Path) -> Path:
         tarball = resp.read()
     verify(tarball)
     cache_dir.mkdir(parents=True, exist_ok=True)
-    target.write_bytes(extract_axe(tarball))
+    # Write a temp file and rename it, so a crash never leaves a partial file named as the cache.
+    tmp = target.with_name(target.name + ".tmp")
+    try:
+        tmp.write_bytes(extract_axe(tarball))
+        os.replace(tmp, target)
+    finally:
+        tmp.unlink(missing_ok=True)
     return target
