@@ -13,7 +13,7 @@ The auditor loads the seeded checkout page in headless Chromium at phone and des
 
 ![Findings boxed on the audited page's screenshot](docs/proof/findings.jpg)
 
-The demo run, the 21 tests (most drive a real browser) and the dependency audit:
+The demo run, the 25 tests (most drive a real browser) and the dependency audit:
 
 ![Demo audit, pytest output and pip-audit](docs/proof/tests.jpg)
 
@@ -74,7 +74,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 make setup      # install the package and dev tools
 make browsers   # download Chromium for Playwright
 make lint       # ruff, ruff format, mypy --strict
-make test       # 21 tests, most with real headless Chromium
+make test       # 25 tests, most with real headless Chromium
 ```
 
 Audit any page:
@@ -83,7 +83,9 @@ Audit any page:
 ui-audit https://example.com --out report/ --fail-on serious
 ```
 
-The output folder gets `screenshot-mobile.png`, `screenshot-desktop.png`, the DOM of each, the raw axe results, `report.json` and `summary.md`. Exit codes: 0 clean, 1 findings at or above `--fail-on`, 2 errors (bad URL, page did not load).
+The output folder gets `screenshot-mobile.png`, `screenshot-desktop.png`, the DOM of each, the raw axe results, `report.json` and `summary.md`. Exit codes: 0 clean, 1 findings at or above `--fail-on`, 2 errors (bad URL or arguments, page did not load, axe-core could not be downloaded or failed its hash check).
+
+Other options: `--viewports mobile,desktop`, `--timeout` (seconds per page load, at least 1; default 30) and `--cache` (where the verified axe-core is kept; default `.tmp/cache`, or the `UI_AUDIT_CACHE` environment variable). The cached file is written atomically and its version is in the file name, so a new pinned axe-core version downloads and verifies a new file.
 
 ### What a finding looks like
 
@@ -116,11 +118,11 @@ The output folder gets `screenshot-mobile.png`, `screenshot-desktop.png`, the DO
 
 ## Tests and results
 
-Full numbers and commands: [docs/results/m1.md](docs/results/m1.md).
+Full numbers and commands: [docs/results/m1.md](docs/results/m1.md). The 10-rule quality check (failure paths, retry safety, mutation testing) is in [docs/quality/2026-11-01.md](docs/quality/2026-11-01.md).
 
 | Check | Result |
 |---|---|
-| Tests (`make test`) | **21 passed**, 0 failed |
+| Tests (`make test`) | **25 passed**, 0 failed |
 | Seeded fixtures | 6 of 6 seeded problems found on the right elements; 2 of 2 viewport-specific problems attributed to the right viewport; 0 findings on the clean page |
 | Real page | example.com audited at two viewports in 4.2 s |
 | Supply chain | axe-core verified against npm's sha512; tampered tarball rejected |
