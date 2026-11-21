@@ -30,8 +30,12 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.timeout < 1:
         parser.error("--timeout must be at least 1 second (0 would mean no timeout)")
+    names = [name.strip() for name in args.viewports.split(",")]
+    if len(set(names)) != len(names):
+        print("error: a viewport is listed twice", file=sys.stderr)
+        return 2
     try:
-        viewports = [VIEWPORTS[name] for name in args.viewports.split(",")]
+        viewports = [VIEWPORTS[name] for name in names]
     except KeyError as e:
         print(f"error: unknown viewport {e}", file=sys.stderr)
         return 2

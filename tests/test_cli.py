@@ -63,6 +63,12 @@ def test_bad_input_exits_with_two(tmp_path: Path) -> None:
     )
 
 
+def test_a_viewport_listed_twice_is_refused(tmp_path: Path) -> None:
+    r = ui_audit("http://127.0.0.1:9/", "--out", str(tmp_path), "--viewports", "mobile, mobile")
+    assert r.returncode == 2
+    assert "listed twice" in r.stderr
+
+
 def test_a_timeout_of_zero_or_less_is_refused(tmp_path: Path) -> None:
     # Playwright treats 0 as "no timeout", which would let one page hang the audit forever.
     for value in ["0", "-5"]:

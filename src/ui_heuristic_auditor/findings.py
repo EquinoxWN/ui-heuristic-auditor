@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from ui_heuristic_auditor.capture import PageCapture
@@ -27,18 +27,7 @@ class Finding:
 
     def to_json(self) -> dict[str, Any]:
         """Plain dict for the JSON report."""
-        return {
-            "rule": self.rule,
-            "impact": self.impact,
-            "summary": self.summary,
-            "help_url": self.help_url,
-            "wcag": self.wcag,
-            "selector": self.selector,
-            "html": self.html,
-            "fix": self.fix,
-            "viewports": self.viewports,
-            "boxes": self.boxes,
-        }
+        return asdict(self)
 
 
 def merge(capture: PageCapture) -> list[Finding]:

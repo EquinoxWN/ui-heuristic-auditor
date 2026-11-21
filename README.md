@@ -13,7 +13,7 @@ The auditor loads the seeded checkout page in headless Chromium at phone and des
 
 ![Findings boxed on the audited page's screenshot](docs/proof/findings.jpg)
 
-The demo run, the 25 tests (most drive a real browser) and the dependency audit:
+The demo run, the 26 tests (most drive a real browser) and the dependency audit:
 
 ![Demo audit, pytest output and pip-audit](docs/proof/tests.jpg)
 
@@ -74,7 +74,7 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 make setup      # install the package and dev tools
 make browsers   # download Chromium for Playwright
 make lint       # ruff, ruff format, mypy --strict
-make test       # 25 tests, most with real headless Chromium
+make test       # 26 tests, most with real headless Chromium
 ```
 
 Audit any page:
@@ -122,7 +122,7 @@ Full numbers and commands: [docs/results/m1.md](docs/results/m1.md). The 10-rule
 
 | Check | Result |
 |---|---|
-| Tests (`make test`) | **25 passed**, 0 failed |
+| Tests (`make test`) | **26 passed**, 0 failed |
 | Seeded fixtures | 6 of 6 seeded problems found on the right elements; 2 of 2 viewport-specific problems attributed to the right viewport; 0 findings on the clean page |
 | Real page | example.com audited at two viewports in 4.2 s |
 | Supply chain | axe-core verified against npm's sha512; tampered tarball rejected |

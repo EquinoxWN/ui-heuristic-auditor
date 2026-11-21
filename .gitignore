@@ -22,3 +22,11 @@ CLAUDE.md
 .tmp/
 .mypy_cache/
 example-report/
+
+# Secrets
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.tfstate
